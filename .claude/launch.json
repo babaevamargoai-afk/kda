@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "kda-landing",
+      "runtimeExecutable": "/bin/zsh",
+      "runtimeArgs": ["/tmp/kda-scripts/start-dev.sh"],
+      "port": 3000
+    }
+  ]
+}
