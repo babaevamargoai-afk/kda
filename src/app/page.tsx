@@ -5,6 +5,7 @@ import Problem from "./components/Problem";
 import Solution from "./components/Solution";
 import Products from "./components/Products";
 import Benefits from "./components/Benefits";
+import B2BPartners from "./components/B2BPartners";
 import Proof from "./components/Proof";
 import HowToStart from "./components/HowToStart";
 import Comparison from "./components/Comparison";
@@ -24,6 +25,7 @@ export default function Home() {
         <Solution />
         <Products />
         <Benefits />
+        <B2BPartners />
         <Proof />
         <HowToStart />
         <Comparison />

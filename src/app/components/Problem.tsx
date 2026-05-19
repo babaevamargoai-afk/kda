@@ -1,185 +1,274 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
-const pains = [
+/* ── Reveal hook ── */
+function useReveal(delay = 0) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.opacity = "0";
+    el.style.transform = "translateY(18px)";
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        el.style.transition = `opacity 650ms cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 650ms cubic-bezier(0.16,1,0.3,1) ${delay}ms`;
+        el.style.opacity = "1";
+        el.style.transform = "none";
+        obs.disconnect();
+      }
+    }, { threshold: 0.08 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [delay]);
+  return ref;
+}
+
+/* ── Problems data ── */
+const problems = [
   {
+    num: "01",
+    title: "Переплата за имя, а не за технологию",
+    desc: "Часть цены уходит в бренд и маркетинг, а не в сам продукт.",
     icon: (
-      <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor" opacity=".15"/>
-        <path d="M12 22C6.48 22 2 17.52 2 12S6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm1-7h-2v2h2v-2zm0-8h-2v6h2V7z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+        <path d="M2 10l6-8 8 8-8 6-6-6z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+        <path d="M9 5.5V9M9 11v1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
       </svg>
     ),
-    title: "Переплата за бренд",
-    text: "Oral-B и Philips берут в первую очередь за имя. Вы платите за маркетинг, а не за технологию.",
   },
   {
+    num: "02",
+    title: "Непрозрачный состав материалов",
+    desc: "Покупатель не понимает, из чего сделаны насадки и насколько они безопасны.",
     icon: (
-      <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-        <path d="M12 3a9 9 0 100 18A9 9 0 0012 3z" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M12 8v5l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+        <path d="M7 2h4v5.5l3.5 7H3.5L7 7.5V2z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M5.5 11.5h7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
       </svg>
     ),
-    title: "Дешёвые щётки не внушают доверия",
-    text: "Непонятно, из чего сделаны насадки. Особенно тревожно, если пользуется вся семья.",
   },
   {
+    num: "03",
+    title: "Зарядка каждые 2 недели",
+    desc: "Низкая автономность превращает уход в лишний бытовой контроль.",
     icon: (
-      <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-        <rect x="6" y="2" width="12" height="20" rx="3" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M10 18h4M12 6v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <circle cx="12" cy="14" r="1" fill="currentColor"/>
+      <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+        <rect x="3" y="3" width="10" height="13" rx="2" stroke="currentColor" strokeWidth="1.4"/>
+        <path d="M7 1.5h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+        <path d="M6 10.5l1.5-2.5h3L12 5.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     ),
-    title: "Щётка садится в самый неподходящий момент",
-    text: "В командировке, в отпуске — снова ищете розетку каждые две недели.",
   },
   {
+    num: "04",
+    title: "Разрозненный ассортимент",
+    desc: "Щётка, ирригатор и насадки — разные продукты без единой системы.",
     icon: (
-      <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-        <path d="M4 6h16M4 10h16M4 14h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <circle cx="17" cy="17" r="4" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M15 17l1.5 1.5L19 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+        <rect x="2" y="2" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.4"/>
+        <rect x="10" y="2" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.4"/>
+        <rect x="2" y="10" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.4"/>
+        <rect x="10" y="10" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.4"/>
       </svg>
     ),
-    title: "Покупаете всё по отдельности",
-    text: "Щётка одного бренда, ирригатор другого, насадки третьего. Хаос в ванной, разные стандарты.",
   },
   {
+    num: "05",
+    title: "Потенциал продукта не раскрывается",
+    desc: "Есть режимы и функции, но пользователю не объясняют их реальную ценность.",
     icon: (
-      <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M9.5 9.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5c0 1.5-1.5 2.5-2.5 3v1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <circle cx="12" cy="16.5" r="1" fill="currentColor"/>
+      <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+        <path d="M3 5h12M3 9h8M3 13h5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+        <circle cx="14" cy="13" r="2.5" stroke="currentColor" strokeWidth="1.3"/>
+        <path d="M14 11.8v1.2l.8.8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
       </svg>
     ),
-    title: "Сложно разобраться в режимах",
-    text: "Берёте умный девайс, а используете один режим — потому что некому объяснить разницу.",
   },
 ];
 
-function useStaggerReveal(count: number) {
-  const refs = Array.from({ length: count }, () => useRef<HTMLDivElement>(null));
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    refs.forEach((ref) => {
-      if (ref.current) {
-        ref.current.style.opacity = "0";
-        ref.current.style.transform = "translateY(24px)";
-      }
-    });
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          refs.forEach((ref, i) => {
-            if (ref.current) {
-              ref.current.style.transition = `opacity 600ms cubic-bezier(0.16,1,0.3,1) ${i * 80}ms, transform 600ms cubic-bezier(0.16,1,0.3,1) ${i * 80}ms`;
-              ref.current.style.opacity = "1";
-              ref.current.style.transform = "none";
-            }
-          });
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, []);
-
-  return { containerRef, refs };
+/* ── Single card ── */
+function ProblemCard({
+  num, title, desc, icon, delay,
+}: typeof problems[0] & { delay: number }) {
+  const ref = useReveal(delay);
+  return (
+    <div
+      ref={ref}
+      className="rounded-2xl p-4 flex flex-col gap-3"
+      style={{
+        background: "#fff",
+        border: "1px solid rgba(5,47,131,0.08)",
+        boxShadow: "0 2px 16px rgba(5,47,131,0.05)",
+      }}
+    >
+      <div className="flex items-start justify-between">
+        <div
+          className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+          style={{ background: "var(--brand-ice)", color: "var(--brand)" }}
+        >
+          {icon}
+        </div>
+        <span
+          className="text-[10px] font-extrabold tracking-widest px-2 py-0.5 rounded-lg"
+          style={{ background: "rgba(5,47,131,0.07)", color: "var(--brand)" }}
+        >
+          {num}
+        </span>
+      </div>
+      <div>
+        <h3 className="text-sm font-bold mb-1.5 leading-snug" style={{ color: "var(--neutral-900)" }}>
+          {title}
+        </h3>
+        <p className="text-xs leading-relaxed" style={{ color: "var(--neutral-600)" }}>
+          {desc}
+        </p>
+      </div>
+    </div>
+  );
 }
 
+/* ── Main section ── */
 export default function Problem() {
-  const { containerRef, refs } = useStaggerReveal(pains.length);
+  const headerRef = useReveal(0);
+  const imageRef  = useReveal(300);
 
   return (
     <section className="py-24 px-4 sm:px-8" style={{ background: "#F7FAFF" }}>
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="text-center mb-14">
+        <div ref={headerRef} className="text-center mb-12">
           <span
-            className="inline-block text-xs font-bold tracking-[0.2em] uppercase mb-4 px-4 py-1.5 rounded-full"
+            className="inline-block text-xs font-bold tracking-[0.2em] uppercase mb-5 px-4 py-1.5 rounded-full"
             style={{ background: "rgba(5,47,131,0.07)", color: "var(--brand)" }}
           >
-            Знакомо?
+            Анализ рынка
           </span>
           <h2
-            className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold leading-tight tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold leading-tight tracking-tight mb-4"
             style={{ color: "var(--neutral-900)" }}
           >
-            Хотите заботиться о зубах правильно,
-            <br className="hidden sm:block" /> но что-то мешает?
+            Пять разрывов рынка —<br className="hidden sm:block" /> и один ответ
           </h2>
+          <p
+            className="text-base sm:text-[17px] max-w-xl mx-auto leading-relaxed"
+            style={{ color: "var(--neutral-600)" }}
+          >
+            То, что мешает рынку дать покупателю честный и понятный продукт.
+          </p>
         </div>
 
-        {/* Cards grid */}
-        <div
-          ref={containerRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-        >
-          {pains.map((pain, i) => (
-            <div
-              key={i}
-              ref={refs[i]}
-              className="rounded-[24px] p-7 flex flex-col gap-4 transition-all duration-300"
-              style={{
-                background: "rgba(255,255,255,0.85)",
-                border: "1px solid rgba(5,47,131,0.08)",
-                boxShadow: "0 4px 24px rgba(5,47,131,0.06)",
-                backdropFilter: "blur(8px)",
-              }}
-            >
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "var(--brand-ice)", color: "var(--brand)" }}
-              >
-                {pain.icon}
-              </div>
-              <div>
-                <h3 className="text-base font-bold mb-2" style={{ color: "var(--neutral-900)" }}>
-                  {pain.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--neutral-600)" }}>
-                  {pain.text}
-                </p>
-              </div>
-            </div>
-          ))}
+        {/* Composition: cards + lines + image */}
+        <div className="flex flex-col lg:flex-row items-stretch gap-6 lg:gap-0">
 
-          {/* Last card — CTA card */}
+          {/* ── Left: 5 problem cards (3+2 grid) ── */}
+          <div className="lg:w-[56%]">
+            {/* Row 1 */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+              {problems.slice(0, 3).map((p, i) => (
+                <ProblemCard key={p.num} {...p} delay={i * 70} />
+              ))}
+            </div>
+            {/* Row 2 */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <ProblemCard {...problems[3]} delay={210} />
+              <ProblemCard {...problems[4]} delay={280} />
+              {/* empty cell — leaves breathing room aligned with cards above */}
+              <div className="hidden sm:block" />
+            </div>
+          </div>
+
+          {/* ── SVG connecting lines — desktop only ── */}
           <div
-            ref={refs[pains.length - 1] as React.RefObject<HTMLDivElement>}
-            className="rounded-[24px] p-7 flex flex-col justify-between gap-6"
+            className="hidden lg:block lg:w-[7%] relative flex-shrink-0"
+            aria-hidden="true"
+          >
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 56 310"
+              preserveAspectRatio="none"
+              className="absolute inset-0"
+            >
+              <defs>
+                <marker
+                  id="prob-arrow"
+                  markerWidth="7" markerHeight="7"
+                  refX="6" refY="3.5"
+                  orient="auto"
+                >
+                  <polyline
+                    points="1,1 6,3.5 1,6"
+                    fill="none"
+                    stroke="rgba(5,47,131,0.45)"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </marker>
+              </defs>
+
+              {/* Row 1: cards 01, 02, 03 — staggered y */}
+              <path d="M0,62 C20,62 32,155 38,155"  fill="none" stroke="rgba(5,47,131,0.20)" strokeWidth="1" strokeDasharray="3 3"/>
+              <path d="M0,75 C20,75 32,155 38,155"  fill="none" stroke="rgba(5,47,131,0.20)" strokeWidth="1" strokeDasharray="3 3"/>
+              <path d="M0,88 C20,88 32,155 38,155"  fill="none" stroke="rgba(5,47,131,0.20)" strokeWidth="1" strokeDasharray="3 3"/>
+
+              {/* Row 2: cards 04, 05 */}
+              <path d="M0,222 C20,222 32,155 38,155" fill="none" stroke="rgba(5,47,131,0.20)" strokeWidth="1" strokeDasharray="3 3"/>
+              <path d="M0,236 C20,236 32,155 38,155" fill="none" stroke="rgba(5,47,131,0.20)" strokeWidth="1" strokeDasharray="3 3"/>
+
+              {/* Convergence → arrow */}
+              <line x1="38" y1="155" x2="53" y2="155"
+                stroke="rgba(5,47,131,0.45)" strokeWidth="1.4"
+                markerEnd="url(#prob-arrow)"
+              />
+
+              {/* Node */}
+              <circle cx="38" cy="155" r="4.5" fill="#fff" stroke="rgba(5,47,131,0.35)" strokeWidth="1.4"/>
+              <circle cx="38" cy="155" r="2" fill="rgba(5,47,131,0.45)"/>
+            </svg>
+          </div>
+
+          {/* ── Right: image placeholder ── */}
+          <div
+            ref={imageRef}
+            className="lg:w-[37%] relative rounded-[24px] overflow-hidden"
             style={{
-              background: "linear-gradient(135deg, #052F83 0%, #0A4DCC 100%)",
-              boxShadow: "0 8px 32px rgba(5,47,131,0.30)",
+              minHeight: "320px",
+              boxShadow: "0 20px 60px rgba(5,47,131,0.16), 0 0 0 1px rgba(5,47,131,0.08)",
             }}
           >
-            <div>
-              <p className="text-base font-bold text-white mb-2">Мы создали решение</p>
-              <p className="text-sm text-white/70 leading-relaxed">
-                KDA закрывает все эти боли — одна экосистема для всей семьи.
-              </p>
-            </div>
+            <Image
+              src="/images/problem-solution-v2.png"
+              alt="KDA — ответ на запрос рынка"
+              fill
+              className="object-cover object-center"
+              loading="lazy"
+            />
+
+            {/* CTA button overlay */}
             <a
               href="#solution"
-              className="inline-flex items-center gap-2 text-sm font-bold text-white group"
+              className="absolute bottom-6 left-6 z-10 inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold transition-all duration-200 group"
+              style={{
+                background: "#fff",
+                color: "var(--brand)",
+                boxShadow: "0 4px 20px rgba(5,47,131,0.18)",
+              }}
             >
               Посмотреть решение
-              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 16 16">
+              <svg
+                className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
+                fill="none" viewBox="0 0 16 16"
+              >
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
           </div>
-        </div>
 
+        </div>
       </div>
     </section>
   );

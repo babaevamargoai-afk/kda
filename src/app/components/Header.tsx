@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -35,21 +36,15 @@ export default function Header() {
         <div className="flex items-center justify-between" style={{ height: 68 }}>
 
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 flex-shrink-0">
-            <svg width="56" height="26" viewBox="0 0 56 26" fill="none">
-              <text
-                x="0" y="22"
-                fontFamily="Manrope, Century Gothic, Avenir, sans-serif"
-                fontWeight="800"
-                fontSize="24"
-                fill="#052F83"
-                letterSpacing="-0.5"
-              >KDA</text>
-            </svg>
-            <div className="hidden sm:flex flex-col leading-none gap-0.5">
-              <span className="text-[9px] font-bold tracking-[0.15em] uppercase" style={{ color: "var(--neutral-400)" }}>Key Dental</span>
-              <span className="text-[9px] font-bold tracking-[0.15em] uppercase" style={{ color: "var(--neutral-400)" }}>Advantage</span>
-            </div>
+          <a href="#" className="flex items-center flex-shrink-0">
+            <Image
+              src="/images/logo.png"
+              alt="KDA — Kind Deluxe Available"
+              width={96}
+              height={48}
+              className="object-contain"
+              priority
+            />
           </a>
 
           {/* Desktop nav */}

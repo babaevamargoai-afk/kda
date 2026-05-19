@@ -69,7 +69,7 @@ const brushes = [
     pills: ["200 дней заряда", "5 режимов", "Блокировка", "Память режима"],
     accentPill: 0,
     price: "от 4 277 ₽",
-    image: "/images/h8.png",
+    image: "/images/h8-v2.png",
     featured: true,
     featuredBg: "linear-gradient(145deg, #EAF2FF 0%, #DCEBFF 100%)",
   },
@@ -82,7 +82,7 @@ const brushes = [
     pills: ["6 режимов", "LED-дисплей", "Свой режим", "60 дней"],
     accentPill: 0,
     price: "4 544 ₽",
-    image: "/images/h6.png",
+    image: "/images/h6-v2.png",
     featured: false,
   },
   {
@@ -94,7 +94,7 @@ const brushes = [
     pills: ["100 дней заряда", "5 режимов", "Память режима"],
     accentPill: 0,
     price: "от 3 363 ₽",
-    image: "/images/t9.png",
+    image: "/images/t9-v2.png",
     featured: false,
   },
   {
@@ -106,7 +106,7 @@ const brushes = [
     pills: ["5 режимов", "3 уровня силы", "60 дней", "Память режима"],
     accentPill: -1,
     price: "от 3 417 ₽",
-    image: "/images/t5.png",
+    image: "/images/t5-v2.png",
     featured: false,
   },
 ];
@@ -122,7 +122,7 @@ const irrigators = [
     pills: ["5 насадок", "5 режимов", "300 мл", "20 дней"],
     accentPill: 0,
     price: "3 705 ₽",
-    image: "/images/hf9.png",
+    image: "/images/hf9-v2.png",
     featured: true,
     featuredBg: "linear-gradient(145deg, #F3F0FE 0%, #EDE9FF 100%)",
   },
@@ -135,7 +135,7 @@ const irrigators = [
     pills: ["Складной", "3 режима", "200 мл", "15 дней"],
     accentPill: 0,
     price: "3 705 ₽",
-    image: "/images/nc2001a.png",
+    image: "/images/nc2001a-v2.png",
     featured: false,
   },
 ];
@@ -149,7 +149,7 @@ const tips = [
     desc: "S1 — классическая форма · S4 — скошенная для труднодоступных зон",
     hardness: "Мягкая · Средняя · Жёсткая",
     price: "от 490 ₽",
-    image: "/images/tips-s1s4.png",
+    image: "/images/tips-s1s4-v2.png",
   },
   {
     id: "s5",
@@ -158,7 +158,7 @@ const tips = [
     desc: "DuPont Diamond щетинки. Цветовой индикатор износа.",
     hardness: "Мягкая · Средняя · Жёсткая",
     price: "от 390 ₽",
-    image: "/images/tips-s5.png",
+    image: "/images/tips-s5-v2.png",
   },
   {
     id: "s6",
@@ -167,7 +167,7 @@ const tips = [
     desc: "DuPont Diamond щетинки. Гипоаллергенные материалы.",
     hardness: "Мягкая · Средняя · Жёсткая",
     price: "от 390 ₽",
-    image: "/images/tips-s6.png",
+    image: "/images/tips-s6-v2.png",
   },
 ];
 
@@ -315,10 +315,10 @@ export default function Products() {
             className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold leading-tight tracking-tight mb-4"
             style={{ color: "var(--neutral-900)" }}
           >
-            Выберите своё
+            Полный ассортимент KDA
           </h2>
           <p className="text-base sm:text-lg max-w-xl mx-auto" style={{ color: "var(--neutral-600)" }}>
-            Полный ассортимент KDA Oral Care. Для B2B-партнёров — всё есть в каталоге со скачиванием прайса.
+            Электрические щётки, ирригаторы, сменные насадки. Полный цикл решений для профессионального ухода за полостью рта.
           </p>
         </div>
 
@@ -366,29 +366,6 @@ export default function Products() {
           </div>
         )}
 
-        {/* B2B CTA strip */}
-        <div
-          className="mt-14 rounded-[24px] px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-6"
-          style={{
-            background: "linear-gradient(135deg, #052F83 0%, #0A4DCC 100%)",
-            boxShadow: "0 12px 48px rgba(5,47,131,0.28)",
-          }}
-        >
-          <div>
-            <p className="text-lg font-bold text-white mb-1">Вы дистрибьютор или розничный партнёр?</p>
-            <p className="text-sm text-white/70">Оставьте заявку — менеджер пришлёт полный каталог с оптовыми условиями.</p>
-          </div>
-          <a
-            href="#partners"
-            className="flex-shrink-0 inline-flex items-center gap-2 bg-white font-bold text-sm px-7 py-3.5 rounded-xl transition-all duration-200 hover:bg-blue-50"
-            style={{ color: "var(--brand)" }}
-          >
-            Запросить каталог
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 16 16">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
-        </div>
 
       </div>
     </section>
